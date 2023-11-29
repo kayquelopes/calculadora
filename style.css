@@ -1,0 +1,25 @@
+body{
+    margin: 9cm 0 0 16cm;
+}
+.calculator{
+    border: 1px solid rgb(0, 0, 0); 
+    background-color:rgb(116, 69, 170);
+    width: 660px;
+}
+#display{
+    background-color: white;
+    color: black;
+    margin: 3px 10px;
+    width: 630px;
+    height: 50px;
+    font-size: 29px;
+}
+.button{
+    width: 140px;
+    height: 60px;
+    font-size: 16px;
+    margin: 3px 10px ;
+    background-color: rgb(59, 0, 126);
+    color: white;
+    border: 1px solid violet;
+}

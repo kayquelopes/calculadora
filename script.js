@@ -1,148 +1,121 @@
-const display = document.getElementById("display")
-const conta = document.getElementById("conta")
-const resultado = document.getElementById("resultado")
+'use strict';
 
-let btn0 = document.getElementById("number0").addEventListener("click", function() {
-    conta.value = conta.value + "0";
-});
-document.addEventListener("keypress", (e) => {
-    if (e.key == "0") {
-        conta.value = conta.value + "0";
+const display = document.getElementById('display');
+const numeros = document.querySelectorAll('[id*=tecla]');
+const operadores = document.querySelectorAll('[id*=operador]');
+
+let novoNumero = true;
+let operador;
+let numeroAnterior;
+
+const operacaoPendente = () => operador !== undefined;
+
+const calcular = () => {
+    if (operacaoPendente()) {
+        const numeroAtual = parseFloat(display.textContent.replace('.','').replace(',', '.'));
+        novoNumero = true;
+        const resultado = eval(`${numeroAnterior}${operador}${numeroAtual}`);
+        atualizarDisplay(resultado);
     }
-})
-let btn1 = document.getElementById("number1").addEventListener("click", function() {
-    conta.value = conta.value + "1";
-});
-document.addEventListener("keypress", (e) => {
-    if (e.key == "1") {
-        conta.value = conta.value + "1";
+};
+
+const atualizarDisplay = (texto) => {
+    if (novoNumero) {
+        display.textContent = texto.toLocaleString('BR');
+        novoNumero = false;
+    } else {
+        display.textContent += texto.toLocaleString('BR');
     }
-})
-let btn2 = document.getElementById("number2").addEventListener("click", function() {
-    conta.value = conta.value + "2";
-});
+    document.querySelector('#igual').focus();
+};
 
-document.addEventListener("keypress", (e) => {
-    if (e.key == "2") {
-        conta.value = conta.value + "2";
+const inserirNumero = (evento) => atualizarDisplay(evento.target.textContent);
+numeros.forEach((numero) => numero.addEventListener('click', inserirNumero));
+
+const selecionarOperador = (evento) => {
+    if (!novoNumero) {
+        calcular();
+        novoNumero = true;
+        operador = evento.target.textContent;
+        numeroAnterior = parseFloat(display.textContent.replace('.','').replace(',', '.'));
     }
-})
+};
+operadores.forEach((operador) =>
+    operador.addEventListener('click', selecionarOperador)
+);
 
-let btn3 = document.getElementById("number3").addEventListener("click", function() {
-    conta.value = conta.value + "3";
-});
+const ativarIgual = () => {
+    calcular();
+    operador = undefined;
+};
+document.getElementById('igual').addEventListener('click', ativarIgual);
 
-document.addEventListener("keypress", (e) => {
-    if (e.key == "3") {
-        conta.value = conta.value + "3";
+const limparDisplay = () => (display.textContent = '');
+document
+    .getElementById('limparDisplay')
+    .addEventListener('click', limparDisplay);
+
+const limparCalculo = () => {
+    limparDisplay();
+    operador = undefined;
+    novoNumero = true;
+    numeroAnterior = undefined;
+};
+document
+    .getElementById('limparCalculo')
+    .addEventListener('click', limparCalculo);
+
+const removerUltimoNumero = () =>
+    (display.textContent = display.textContent.slice(0, -1));
+document
+    .getElementById('backspace')
+    .addEventListener('click', removerUltimoNumero);
+
+const inverterSinal = () => {
+    novoNumero = true;
+    atualizarDisplay(display.textContent * -1);
+};
+document.getElementById('inverter').addEventListener('click', inverterSinal);
+
+const existeDecimal = () => display.textContent.indexOf(',') !== -1;
+const existeValor = () => display.textContent.length > 0;
+const inserirDecimal = () => {
+    if (!existeDecimal()) {
+        if (novoNumero) {
+            atualizarDisplay('0,');
+        } else {
+            atualizarDisplay(',');
+        }
     }
-})
-let btn4 = document.getElementById("number4").addEventListener("click", function() {
-    conta.value = conta.value + "4";
-});
+};
+document.getElementById('decimal').addEventListener('click', inserirDecimal);
 
-document.addEventListener("keypress", (e) => {
-    if (e.key == "4") {
-        conta.value = conta.value + "4";
-    }
-})
-let btn5 = document.getElementById("number5").addEventListener("click", function() {
-    conta.value = conta.value + "5";
-});
+const mapaTeclado = {
+    0: 'tecla0',
+    1: 'tecla1',
+    2: 'tecla2',
+    3: 'tecla3',
+    4: 'tecla4',
+    5: 'tecla5',
+    6: 'tecla6',
+    7: 'tecla7',
+    8: 'tecla8',
+    9: 'tecla9',
+    '/': 'operadorDividir',
+    '*': 'operadorMultiplicar',
+    '-': 'operadorSubtrair',
+    '+': 'operadorAdicionar',
+    '=': 'igual',
+    Enter: 'igual',
+    Backspace: 'backspace',
+    c: 'limparDisplay',
+    Escape: 'limparCalculo',
+    ',': 'decimal',
+};
 
-document.addEventListener("keypress", (e) => {
-    if (e.key == "5") {
-        conta.value = conta.value + "5";
-    }
-})
-let btn6 = document.getElementById("number6").addEventListener("click", function() {
-    conta.value = conta.value + "6";
-});
-
-document.addEventListener("keypress", (e) => {
-    if (e.key == "6") {
-        conta.value = conta.value + "6";
-    }
-})
-let btn7 = document.getElementById("number7").addEventListener("click", function() {
-    conta.value = conta.value + "7";
-});
-
-document.addEventListener("keypress", (e) => {
-    if (e.key == "7") {
-        conta.value = conta.value + "7";
-    }
-})
-let btn8 = document.getElementById("number8").addEventListener("click", function() {
-    conta.value = conta.value + "8";
-});
-
-document.addEventListener("keypress", (e) => {
-    if (e.key == "8") {
-        conta.value = conta.value + "8";
-    }
-})
-let btn9 = document.getElementById("number9").addEventListener("click", function() {
-    conta.value = conta.value + "9";
-});
-
-document.addEventListener("keypress", (e) => {
-    if (e.key == "9") {
-        conta.value = conta.value + "9";
-    }
-})
-let btnMais = document.getElementById("Adicao").addEventListener("click", function() {
-    conta.value = conta.value + "+";
-});
-
-document.addEventListener("keypress", (e) => {
-    if (e.key == "+") {
-        conta.value = conta.value + "+";
-    }
-})
-let btnMenos = document.getElementById("subtrair").addEventListener("click", function() {
-    conta.value = conta.value + "-";
-});
-
-document.addEventListener("keypress", (e) => {
-    if (e.key == "-") {
-        conta.value = conta.value + "-";
-    }
-})
-let btnMulti = document.getElementById("multiplicar").addEventListener("click", function() {
-    conta.value = conta.value + "*";
-});
-
-document.addEventListener("keypress", (e) => {
-    if (e.key == "*") {
-        conta.value = conta.value + "*";
-    }
-})
-let btnDivi = document.getElementById("dividir").addEventListener("click", function() {
-    conta.value = conta.value + "/";
-});
-
-document.addEventListener("keypress", (e) => {
-    if (e.key == "/") {
-        conta.value = conta.value + "/"
-    }
-})
-let btnponto = document.getElementById("ponto").addEventListener("click", function() {
-    conta.value = conta.value + ".";
-});
-
-document.addEventListener("keypress", (e) => {
-    if (e.key == ".") {
-        conta.value = conta.value + "."
-    }
-});
-let ac = document.getElementById("apagartudo").addEventListener("click", function() {
-    conta.value ="";
-});
-
-document.addEventListener("keypress", (e) => {
-    if (e.key == "Delete") {
-        conta.value = "";
-    }
-});
-
+const mapearTeclado = (evento) => {
+    const tecla = evento.key;
+    const teclaPermitida = () => Object.keys(mapaTeclado).indexOf(tecla) !== -1;
+    if (teclaPermitida()) document.getElementById(mapaTeclado[tecla]).click();
+};
+document.addEventListener('keydown', mapearTeclado);

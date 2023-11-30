@@ -136,4 +136,13 @@ document.addEventListener("keypress", (e) => {
         conta.value = conta.value + "."
     }
 });
+let ac = document.getElementById("apagartudo").addEventListener("click", function() {
+    conta.value ="";
+});
+
+document.addEventListener("keypress", (e) => {
+    if (e.key == "Delete") {
+        conta.value = "";
+    }
+});
 

@@ -1,121 +1,152 @@
-'use strict';
+document.addEventListener('DOMContentLoaded', function () {
+    const resultadoElemento = document.getElementById('resultado');
+    const botoes = document.querySelectorAll('#botoes button');
 
-const display = document.getElementById('display');
-const numeros = document.querySelectorAll('[id*=tecla]');
-const operadores = document.querySelectorAll('[id*=operador]');
+    let entradaAtual = '';
+    let operador = '';
+    let primeiroOperando = null;
+    let resultadoAnterior = null;
+    let ultimaOpreação = null;
 
-let novoNumero = true;
-let operador;
-let numeroAnterior;
+    botoes.forEach(function (botao) {
+        botao.addEventListener('click', function () {
+            Clique(botao.innerText);
+            atualizarDisplay();
+        });
+    });
 
-const operacaoPendente = () => operador !== undefined;
 
-const calcular = () => {
-    if (operacaoPendente()) {
-        const numeroAtual = parseFloat(display.textContent.replace('.','').replace(',', '.'));
-        novoNumero = true;
-        const resultado = eval(`${numeroAnterior}${operador}${numeroAtual}`);
-        atualizarDisplay(resultado);
-    }
-};
+    function Clique(valor) {
+        if (eNumero(valor) || valor === '.') {
+            entradaAtual += valor;
+        }
 
-const atualizarDisplay = (texto) => {
-    if (novoNumero) {
-        display.textContent = texto.toLocaleString('BR');
-        novoNumero = false;
-    } else {
-        display.textContent += texto.toLocaleString('BR');
-    }
-    document.querySelector('#igual').focus();
-};
+        else if (eOperador(valor)) {
+            lidarComOperador(valor);
+        }
 
-const inserirNumero = (evento) => atualizarDisplay(evento.target.textContent);
-numeros.forEach((numero) => numero.addEventListener('click', inserirNumero));
+        else if (valor === '=') {
+            igual();
+        }
 
-const selecionarOperador = (evento) => {
-    if (!novoNumero) {
-        calcular();
-        novoNumero = true;
-        operador = evento.target.textContent;
-        numeroAnterior = parseFloat(display.textContent.replace('.','').replace(',', '.'));
-    }
-};
-operadores.forEach((operador) =>
-    operador.addEventListener('click', selecionarOperador)
-);
+        else if (valor === 'C') {
+            limpar();
+        }
 
-const ativarIgual = () => {
-    calcular();
-    operador = undefined;
-};
-document.getElementById('igual').addEventListener('click', ativarIgual);
+        else if (valor === '←') {
+            apagarUltimo();
+        }
 
-const limparDisplay = () => (display.textContent = '');
-document
-    .getElementById('limparDisplay')
-    .addEventListener('click', limparDisplay);
+        else if (valor === 'sqrt') {
+            RaizQuadrada();
+        }
 
-const limparCalculo = () => {
-    limparDisplay();
-    operador = undefined;
-    novoNumero = true;
-    numeroAnterior = undefined;
-};
-document
-    .getElementById('limparCalculo')
-    .addEventListener('click', limparCalculo);
+        else if (valor === 'x^2') {
+            Potenciacao(2);
+        }
 
-const removerUltimoNumero = () =>
-    (display.textContent = display.textContent.slice(0, -1));
-document
-    .getElementById('backspace')
-    .addEventListener('click', removerUltimoNumero);
-
-const inverterSinal = () => {
-    novoNumero = true;
-    atualizarDisplay(display.textContent * -1);
-};
-document.getElementById('inverter').addEventListener('click', inverterSinal);
-
-const existeDecimal = () => display.textContent.indexOf(',') !== -1;
-const existeValor = () => display.textContent.length > 0;
-const inserirDecimal = () => {
-    if (!existeDecimal()) {
-        if (novoNumero) {
-            atualizarDisplay('0,');
-        } else {
-            atualizarDisplay(',');
+        else if (valor === 'x^y') {
+            lidarComOperador('^'); lidarComOperador
+            lidarComOperador
+            lidarComOperador
         }
     }
-};
-document.getElementById('decimal').addEventListener('click', inserirDecimal);
 
-const mapaTeclado = {
-    0: 'tecla0',
-    1: 'tecla1',
-    2: 'tecla2',
-    3: 'tecla3',
-    4: 'tecla4',
-    5: 'tecla5',
-    6: 'tecla6',
-    7: 'tecla7',
-    8: 'tecla8',
-    9: 'tecla9',
-    '/': 'operadorDividir',
-    '*': 'operadorMultiplicar',
-    '-': 'operadorSubtrair',
-    '+': 'operadorAdicionar',
-    '=': 'igual',
-    Enter: 'igual',
-    Backspace: 'backspace',
-    c: 'limparDisplay',
-    Escape: 'limparCalculo',
-    ',': 'decimal',
-};
+    function eNumero(valor) {
+        return !isNaN(parseFloat(valor)) && isFinite(valor);
+    }
 
-const mapearTeclado = (evento) => {
-    const tecla = evento.key;
-    const teclaPermitida = () => Object.keys(mapaTeclado).indexOf(tecla) !== -1;
-    if (teclaPermitida()) document.getElementById(mapaTeclado[tecla]).click();
-};
-document.addEventListener('keydown', mapearTeclado);
+    function eOperador(valor) {
+        return ['+', '-', '*', '/', '^'].includes(valor);
+    }
+
+    function lidarComOperador(valor) {
+        if (entradaAtual !== '' || resultadoAnterior !== null) {
+            primeiroOperando = entradaAtual !== '' ? parseFloat(entradaAtual) : resultadoAnterior;
+            operador = valor;
+            entradaAtual = '';
+            ultimaOpreação = {
+                operacao: operador,
+                num1: primeiroOperando
+            }
+        }
+    }
+
+    function igual() {
+        if (entradaAtual !== '' || resultadoAnterior !== null) {
+            const segundoOperando = entradaAtual !== '' ? parseFloat(entradaAtual) : primeiroOperando;
+
+            if (operador && segundoOperando !== null) {
+
+                if (operador === '+') {
+                    resultadoAnterior = primeiroOperando + segundoOperando;
+                }
+
+                else if (operador === '-') {
+                    resultadoAnterior = primeiroOperando - segundoOperando;
+                }
+
+                else if (operador === '*') {
+                    resultadoAnterior = primeiroOperando * segundoOperando;
+                }
+                else if (operador === '/') {
+
+                    if (segundoOperando !== 0) {
+                        resultadoAnterior = primeiroOperando / segundoOperando;
+                    }
+
+                    else {
+                        alert("Não é possível dividir por zero!");
+                        limpar();
+                        return;
+                    }
+                }
+
+                else if (operador === '^') {
+                    resultadoAnterior = Math.pow(primeiroOperando, segundoOperando);
+                }
+
+                entradaAtual = '';
+                operador = '';
+                ultimaOpreação.resultado = resultadoAnterior;
+                atualizarDisplay();
+            }
+        }
+    }
+
+    function RaizQuadrada() {
+        if (entradaAtual !== '' || resultadoAnterior !== null) {
+            const operando = entradaAtual !== '' ? parseFloat(entradaAtual) : resultadoAnterior;
+            resultadoAnterior = Math.sqrt(operando);
+            entradaAtual = '';
+            atualizarDisplay();
+        }
+    }
+
+    function Potenciacao(exp) {
+        if (entradaAtual !== '' || resultadoAnterior !== null) {
+            const operando = entradaAtual !== '' ? parseFloat(entradaAtual) : resultadoAnterior;
+            resultadoAnterior = Math.pow(operando, exp);
+            entradaAtual = '';
+            atualizarDisplay();
+        }
+    }
+
+    function limpar() {
+        entradaAtual = '';
+        operador = '';
+        primeiroOperando = null;
+        resultadoAnterior = null;
+        atualizarDisplay();
+    }
+
+    function apagarUltimo() {
+        entradaAtual = entradaAtual.slice(0, -1);
+        atualizarDisplay();
+    }
+
+    function atualizarDisplay() {
+        resultadoElemento.innerText = entradaAtual !== '' ? entradaAtual : resultadoAnterior !== null ? resultadoAnterior : '0';
+
+    }
+});

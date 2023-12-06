@@ -1,48 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css">
+
     <title>Calculadora</title>
-    
 </head>
+
 <body>
 
-<div id="calculadora">
-    <div id="resultado"></div>
-    <div id="botoes">
-        <button>7</button>
-        <button>8</button>
-        <button>9</button>
-        <button class="operador">/</button>
 
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button class="operador">*</button>
+    <div class="calculator">
 
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button class="operador">-</button>
+        <div class="display">
+            <input type="text" id="conta"></input>
+            <h2 class="resultado"></h2>
+        </div>
 
-        <button class="duplo">0</button>
-        <button>.</button>
-        <button class="operador">+</button>
-        <button class="operador alto">=</button>
+        <div class="row">
+            <button class="button purple-text" id="apagartudo">AC</button>
+            <div></div>
+            <div></div>
+            <button class="button gray" id="dividir">/</button>
+        </div>
 
-        <button class="operador">C</button>
-        <button class="operador">←</button>
+        <div class="row">
+            <button class="button" id="number7">7</button>
+            <button class="button" id="number8">8</button>
+            <button class="button" id="number9">9</button>
+            <button class="button gray" id="multiplicar">*</button>
+        </div>
 
-        <button class="funcao" onclick="Clique('sqrt')">sqrt</button>
-        <button class="funcao" onclick="Clique('x^2')">x^2</button>
-        <button class="funcao" onclick="Clique('x^y')">x^y</button>
+        <div class="row">
+            <button class="button" id="number4">4</button>
+            <button class="button" id="number5">5</button>
+            <button class="button" id="number6">6</button>
+            <button class="button gray" id="subtrair">-</button>
+        </div>
 
+        <div class="row">
+            <button class="button" id="number1">1</button>
+            <button class="button" id="number2">2</button>
+            <button class="button" id="number3">3</button>
+            <button class="button gray" id="Adicao">+</button>
+        </div>
+
+        <div class="row">
+            <div></div>
+            <button class="button" id="number7">0</button>
+            <button class="button" id="ponto">.</button>
+            <button class="button purple" id="igual">=</button>
+        </div>
+
+        <div class="row">
+            <button class="button gray" id="Raiz">Raiz</button>
+            <button class="button gray" id="elevadoy">x^y</button>
+            <button class="button gray" id="elevado2">x²</button>
+        </div>
     </div>
 
-    <script src="script.js"></script>
-</div>
+
+    <script type="text/javascript" src="script.js"></script>
+
 
 </body>
+
 </html>

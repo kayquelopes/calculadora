@@ -1,152 +1,157 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const resultadoElemento = document.getElementById('resultado');
-    const botoes = document.querySelectorAll('#botoes button');
-
-    let entradaAtual = '';
-    let operador = '';
-    let primeiroOperando = null;
-    let resultadoAnterior = null;
-    let ultimaOpreação = null;
-
-    botoes.forEach(function (botao) {
-        botao.addEventListener('click', function () {
-            Clique(botao.innerText);
-            atualizarDisplay();
-        });
-    });
+const display = document.getElementById("display")
+const conta = document.getElementById("conta")
+const resultado = document.getElementById("resultado")
 
 
-    function Clique(valor) {
-        if (eNumero(valor) || valor === '.') {
-            entradaAtual += valor;
-        }
-
-        else if (eOperador(valor)) {
-            lidarComOperador(valor);
-        }
-
-        else if (valor === '=') {
-            igual();
-        }
-
-        else if (valor === 'C') {
-            limpar();
-        }
-
-        else if (valor === '←') {
-            apagarUltimo();
-        }
-
-        else if (valor === 'sqrt') {
-            RaizQuadrada();
-        }
-
-        else if (valor === 'x^2') {
-            Potenciacao(2);
-        }
-
-        else if (valor === 'x^y') {
-            lidarComOperador('^'); lidarComOperador
-            lidarComOperador
-            lidarComOperador
-        }
-    }
-
-    function eNumero(valor) {
-        return !isNaN(parseFloat(valor)) && isFinite(valor);
-    }
-
-    function eOperador(valor) {
-        return ['+', '-', '*', '/', '^'].includes(valor);
-    }
-
-    function lidarComOperador(valor) {
-        if (entradaAtual !== '' || resultadoAnterior !== null) {
-            primeiroOperando = entradaAtual !== '' ? parseFloat(entradaAtual) : resultadoAnterior;
-            operador = valor;
-            entradaAtual = '';
-            ultimaOpreação = {
-                operacao: operador,
-                num1: primeiroOperando
-            }
-        }
-    }
-
-    function igual() {
-        if (entradaAtual !== '' || resultadoAnterior !== null) {
-            const segundoOperando = entradaAtual !== '' ? parseFloat(entradaAtual) : primeiroOperando;
-
-            if (operador && segundoOperando !== null) {
-
-                if (operador === '+') {
-                    resultadoAnterior = primeiroOperando + segundoOperando;
-                }
-
-                else if (operador === '-') {
-                    resultadoAnterior = primeiroOperando - segundoOperando;
-                }
-
-                else if (operador === '*') {
-                    resultadoAnterior = primeiroOperando * segundoOperando;
-                }
-                else if (operador === '/') {
-
-                    if (segundoOperando !== 0) {
-                        resultadoAnterior = primeiroOperando / segundoOperando;
-                    }
-
-                    else {
-                        alert("Não é possível dividir por zero!");
-                        limpar();
-                        return;
-                    }
-                }
-
-                else if (operador === '^') {
-                    resultadoAnterior = Math.pow(primeiroOperando, segundoOperando);
-                }
-
-                entradaAtual = '';
-                operador = '';
-                ultimaOpreação.resultado = resultadoAnterior;
-                atualizarDisplay();
-            }
-        }
-    }
-
-    function RaizQuadrada() {
-        if (entradaAtual !== '' || resultadoAnterior !== null) {
-            const operando = entradaAtual !== '' ? parseFloat(entradaAtual) : resultadoAnterior;
-            resultadoAnterior = Math.sqrt(operando);
-            entradaAtual = '';
-            atualizarDisplay();
-        }
-    }
-
-    function Potenciacao(exp) {
-        if (entradaAtual !== '' || resultadoAnterior !== null) {
-            const operando = entradaAtual !== '' ? parseFloat(entradaAtual) : resultadoAnterior;
-            resultadoAnterior = Math.pow(operando, exp);
-            entradaAtual = '';
-            atualizarDisplay();
-        }
-    }
-
-    function limpar() {
-        entradaAtual = '';
-        operador = '';
-        primeiroOperando = null;
-        resultadoAnterior = null;
-        atualizarDisplay();
-    }
-
-    function apagarUltimo() {
-        entradaAtual = entradaAtual.slice(0, -1);
-        atualizarDisplay();
-    }
-
-    function atualizarDisplay() {
-        resultadoElemento.innerText = entradaAtual !== '' ? entradaAtual : resultadoAnterior !== null ? resultadoAnterior : '0';
-
-    }
+let btn0 = document.getElementById("number0").addEventListener("click", function() {
+   conta.value = conta.value + "0";
 });
+document.addEventListener("keypress", (e) => {
+   if (e.key == "0") {
+       conta.value = conta.value + "0";
+   }
+})
+let btn1 = document.getElementById("number1").addEventListener("click", function() {
+   conta.value = conta.value + "1";
+});
+document.addEventListener("keypress", (e) => {
+   if (e.key == "1") {
+       conta.value = conta.value + "1";
+   }
+})
+let btn2 = document.getElementById("number2").addEventListener("click", function() {
+   conta.value = conta.value + "2";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "2") {
+       conta.value = conta.value + "2";
+   }
+})
+
+
+let btn3 = document.getElementById("number3").addEventListener("click", function() {
+   conta.value = conta.value + "3";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "3") {
+       conta.value = conta.value + "3";
+   }
+})
+let btn4 = document.getElementById("number4").addEventListener("click", function() {
+   conta.value = conta.value + "4";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "4") {
+       conta.value = conta.value + "4";
+   }
+})
+let btn5 = document.getElementById("number5").addEventListener("click", function() {
+   conta.value = conta.value + "5";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "5") {
+       conta.value = conta.value + "5";
+   }
+})
+let btn6 = document.getElementById("number6").addEventListener("click", function() {
+   conta.value = conta.value + "6";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "6") {
+       conta.value = conta.value + "6";
+   }
+})
+let btn7 = document.getElementById("number7").addEventListener("click", function() {
+   conta.value = conta.value + "7";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "7") {
+       conta.value = conta.value + "7";
+   }
+})
+let btn8 = document.getElementById("number8").addEventListener("click", function() {
+   conta.value = conta.value + "8";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "8") {
+       conta.value = conta.value + "8";
+   }
+})
+let btn9 = document.getElementById("number9").addEventListener("click", function() {
+   conta.value = conta.value + "9";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "9") {
+       conta.value = conta.value + "9";
+   }
+})
+let btnMais = document.getElementById("Adicao").addEventListener("click", function() {
+   conta.value = conta.value + "+";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "+") {
+       conta.value = conta.value + "+";
+   }
+})
+let btnMenos = document.getElementById("subtrair").addEventListener("click", function() {
+   conta.value = conta.value + "-";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "-") {
+       conta.value = conta.value + "-";
+   }
+})
+let btnMulti = document.getElementById("multiplicar").addEventListener("click", function() {
+   conta.value = conta.value + "*";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "*") {
+       conta.value = conta.value + "*";
+   }
+})
+let btnDivi = document.getElementById("dividir").addEventListener("click", function() {
+   conta.value = conta.value + "/";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == "/") {
+       conta.value = conta.value + "/"
+   }
+})
+let btnponto = document.getElementById("ponto").addEventListener("click", function() {
+   conta.value = conta.value + ".";
+});
+
+
+document.addEventListener("keypress", (e) => {
+   if (e.key == ".") {
+       conta.value = conta.value + "."
+   }
+});
+//calculo
+
+
+

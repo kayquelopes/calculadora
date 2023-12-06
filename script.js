@@ -1,11 +1,12 @@
 const display = document.getElementById("display")
 const conta = document.getElementById("conta")
-const resultado = document.getElementById("resultado")
+const resultado = document.querySelector(".resultado")
 
 
-let btn0 = document.getElementById("number0").addEventListener("click", function() {
-   conta.value = conta.value + "0";
-});
+let btn0 = document.getElementById("number0").addEventListener("click", function(){
+   conta.value = conta.value + "0"; 
+})
+
 document.addEventListener("keypress", (e) => {
    if (e.key == "0") {
        conta.value = conta.value + "0";
@@ -151,7 +152,27 @@ document.addEventListener("keypress", (e) => {
        conta.value = conta.value + "."
    }
 });
+
+document.getElementById("igual").addEventListener("click", function( ){
+   if (conta.value != "") {
+      resultados();
+   }
+});
 //calculo
 
+function resultados(){
+   // let operador = conta.value.substr(getOperador(conta.value), 1);
+   // let primeiro = conta.value.split(operador)[0];
+   // let segundo = conta.value.split(operador)[1];
+   resultado.textContent = conta.value;
+   conta.value = eval(conta.value);
+} 
 
-
+// function getOperador(operacao) {
+//    const operador = (operacao.indexOf("+") > 0) ? operacao.indexOf("+")
+//       : (operacao.indexOf("-") > 0) ? operacao.indexOf("-")
+//       : (operacao.indexOf("*") > 0) ? operacao.indexOf("*")
+//       : (operacao.indexOf("/") > 0) ? operacao.indexOf("/")
+//       : null;
+//    return operador;
+// }

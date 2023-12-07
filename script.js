@@ -152,7 +152,11 @@ document.addEventListener("keypress", (e) => {
        conta.value = conta.value + "."
    }
 });
-
+document.addEventListener("keypress", (e) => {
+   if (e.key == "Enter") {
+       resultados();
+   }
+});
 document.getElementById("igual").addEventListener("click", function( ){
    if (conta.value != "") {
       resultados();
@@ -179,4 +183,5 @@ function resultados(){
 function click_limpar() {
   conta.value = "";
   resultado.textContent = "";
+  document.getElementById("igual").focus()
  }

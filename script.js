@@ -176,3 +176,7 @@ function resultados(){
 //       : null;
 //    return operador;
 // }
+function click_limpar() {
+  conta.value = "";
+  resultado.textContent = "";
+ }
